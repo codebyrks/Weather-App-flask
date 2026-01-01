@@ -1,0 +1,314 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #acb6e5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+/* --- NEW: THE SEARCH CARD (The "Glass" Box) --- */
+.search-card {
+    background: rgba(255, 255, 255, 0.95); /* White with slight transparency */
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15); /* Soft shadow for depth */
+    text-align: center;
+    max-width: 450px;
+    width: 100%;
+    margin-bottom: 30px; /* Space between search and results */
+    transition: transform 0.3s ease;
+}
+
+.app-icon {
+    font-size: 60px;
+    margin-bottom: 10px;
+    /* Animate the icon slightly */
+    animation: float-icon 3s ease-in-out infinite alternate;
+}
+
+@keyframes float-icon {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+
+h1 {
+    margin: 10px 0;
+    font-size: 28px;
+    color: #444;
+}
+
+.search-card p {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+/* --- IMPROVED INPUT & BUTTON --- */
+form {
+    display: flex;
+    gap: 10px; /* Space between input and button */
+    justify-content: center;
+}
+
+input {
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 50px; /* Fully rounded pill shape */
+    font-size: 16px;
+    width: 70%;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #74ebd5; /* Highlight color when clicking */
+}
+
+button {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 50px;
+    background-color: #ff6f61;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 111, 97, 0.3); /* Colored shadow */
+    transition: all 0.3s;
+}
+
+button:hover {
+    background-color: #ff3b2f;
+    transform: scale(1.05); /* Grow slightly on hover */
+}
+
+/* Error message styling */
+.error {
+    margin-top: 15px;
+    color: #d9534f;
+    background: #fde8e8;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Center vertically */
+    gap: 50px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.weather-card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 20px;
+    width: 280px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.animation-box {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    /* Essential for absolute children */
+    background: rgba(255, 255, 255, 0.2);
+    /* Slight background to see the box */
+    border-radius: 50%;
+    /* Circle container */
+    overflow: hidden;
+    /* Keeps rain/snow inside the circle */
+}
+
+/* ☀️ SUNNY */
+.sun {
+    width: 80px;
+    height: 80px;
+    background: #FFD700;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 40px #FFD700;
+}
+
+
+/* ☁️ CLOUD (Base Shape) */
+.cloud {
+    width: 100px;
+    height: 40px;
+    background: #fff;
+    border-radius: 50px;
+    position: absolute;
+    top: 70px;
+    left: 50px;
+    z-index: 1;
+    /* Behind rain */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Cloud Puffs (Pseudo-elements) */
+.cloud::before,
+.cloud::after {
+    content: "";
+    background: #fff;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.cloud::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 15px;
+}
+
+.cloud::after {
+    width: 40px;
+    height: 40px;
+    top: -15px;
+    left: 50px;
+}
+
+/* 🌧️ RAIN */
+/* We make the rain container fill the box so ::after can position correctly */
+.rain {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    /* On top of cloud */
+}
+
+.rain::after {
+    content: "💧 💧 💧";
+    font-size: 20px;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    /* Width of rain area */
+    text-align: center;
+    animation: rain-drop 1s infinite linear;
+}
+
+@keyframes rain-drop {
+    0% {
+        top: 80px;
+        opacity: 1;
+    }
+
+    100% {
+        top: 160px;
+        opacity: 0;
+    }
+}
+
+/* ⚡ THUNDER */
+.lightning {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+
+.lightning::after {
+    content: "⚡";
+    font-size: 60px;
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: flash 1.5s infinite;
+}
+
+@keyframes flash {
+
+    0%,
+    90%,
+    100% {
+        opacity: 0;
+    }
+
+    92%,
+    96% {
+        opacity: 1;
+        text-shadow: 0 0 20px yellow;
+    }
+}
+
+/* ❄️ SNOW */
+.snow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.snow::after {
+    content: "❄ ❄ ❄";
+    font-size: 25px;
+    color: white;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    text-align: center;
+    animation: snow-fall 3s infinite linear;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    /* Shadow so white snow shows on white cloud */
+}
+
+@keyframes snow-fall {
+    0% {
+        top: 80px;
+        opacity: 1;
+    }
+
+    100% {
+        top: 180px;
+        opacity: 0;
+    }
+}
+
+.forecast {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.forecast-card {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    width: 120px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.error {
+    color: #d9534f;
+    font-weight: bold;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Weather App</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="search-card">
+        <div class="app-icon">🌦️</div>
+        <h1>Weather Forecast</h1>
+        <p>Enter a city to get the current weather & 5-day forecast</p>
+
+        <form method="POST">
+            <input type="text" name="city" placeholder="e.g. New York, London..." required>
+            <button type="submit">Search</button>
+        </form>
+
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+    
+    {% if weather %}
+    <div class="container">
+
+        <div class="weather-card">
+            <h2>{{ weather.city }}, {{ weather.country }}</h2>
+            <p>🌡️ {{ weather.temp }} °C</p>
+            <p>☁️ {{ weather.condition }}</p>
+            <p>💧 Humidity: {{ weather.humidity }}%</p>
+            <p>🌬️ Wind: {{ weather.wind }} m/s</p>
+        </div>
+
+        <div class="animation-box">
+            {% if weather_type == "sunny" %}
+            <div class="sun"></div>
+
+            {% elif weather_type == "rainy" %}
+            <div class="cloud"></div>
+            <div class="rain"></div>
+
+            {% elif weather_type == "cloudy" %}
+            <div class="cloud"></div>
+
+            {% elif weather_type == "thunder" %}
+            <div class="cloud"></div>
+            <div class="lightning"></div>
+
+            {% elif weather_type == "cold" %}
+            <div class="cloud"></div>
+            <div class="snow"></div>
+            {% endif %}
+        </div>
+    </div>
+
+    <h2>📅 5-Day Forecast</h2>
+    <div class="forecast">
+        {% for day in forecast %}
+        <div class="forecast-card">
+            <h3>{{ day.day }}</h3>
+            <p>{{ day.temp }} °C</p>
+            <p>{{ day.condition }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+</body>
+
+</html>
